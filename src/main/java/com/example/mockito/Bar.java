@@ -11,5 +11,6 @@ public class Bar {
 
     public String bar(String parameter) {
         return foo.foo(parameter);
+//        return null;
     }
 }
