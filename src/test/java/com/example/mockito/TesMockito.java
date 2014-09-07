@@ -1,18 +1,12 @@
 package com.example.mockito;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.inject.TypeLiteral;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 /**

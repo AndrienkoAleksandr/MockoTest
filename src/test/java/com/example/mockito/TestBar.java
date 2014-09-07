@@ -4,7 +4,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
@@ -65,16 +67,61 @@ public class TestBar {
 
     @Test
     public void teatEasyMather() {
-        bar.bar("12a");
+        bar.bar("1a4");
         verify(foo).foo(matches("..."));
     }
 
+    @Test
+    public void test5() {
+        bar.bar("qwe");
+        verify(foo).foo(endsWith("we"));
+        verify(foo).foo(contains("w"));
+        verify(foo).foo(startsWith("qw"));
+        System.out.println(bar.bar("qwe"));
+    }
+
+//    @Test (expected = IllegalArgumentException.class)
+//    public void excluding() {
+//        FooVoid foo = mock(FooVoid.class);
+//        BarVoid bar = new BarVoid(foo);
+//        doNothing().when(foo).foo("qwe");
+//        doThrow(new IllegalArgumentException()).when(foo).foo(anyString());
+//
+//        bar.bar("qwe");
+//        verify(foo).foo("qwe");
+//        bar.bar("ss");
+//    }
 
     @Test
     public void teatDifficultMather() {
-        bar.bar("12a");
-        verify(foo).foo(matches("[a-z]*[1-9]*[a-z]*"));
+        bar.bar("abcd12a");
+        verify(foo).foo(matches("[a-z]{1,4}[1-9]*[a-z]*"));
     }
 
+    @Test
+    public void thenAnsver() {
+        Foo foo = mock(Foo.class);
+        Bar bar = new Bar(foo);
+// gi ven
+        when(foo.foo(anyString())).thenAnswer(new Answer() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                if (args[0].equals("qwe")) {
+                    return "asd";
+                }
+                if (args[0].equals("qwr")) {
+                    return "qwe";
+                }
+                if (args[0].equals("abc")) {
+                    return "abc";
+                }
+                return null;
+            }
+        });
+        assertEquals("asd", bar.bar("qwe"));
+        assertEquals("qwe", bar.bar("qwr"));
+        assertEquals("abc", bar.bar("abc"));
+        assertEquals(null, bar.bar("fdfdff"));
+    }
 
 }

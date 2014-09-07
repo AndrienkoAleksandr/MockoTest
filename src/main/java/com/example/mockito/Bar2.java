@@ -11,8 +11,9 @@ public class Bar2 {
 
     }
 
-    public void bar(String parameters) {
+    public String bar(String parameters, String param) {
         foo1.foo(parameters);
         foo2.foo(parameters);
+        return foo1.foo(param);
     }
 }
